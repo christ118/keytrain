@@ -1,6 +1,8 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
+const jsonFormat = require("json-format");
 const path = require('path')
+const fs = require('fs')
 const pre=3;
 function createWindow () {
   // Create the browser window.
@@ -30,6 +32,42 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+})
+
+ipcMain.handle('loaduserdata', () => {
+  if (!fs.existsSync(`./user.json`)) {
+    const json = jsonFormat({ "name": "user", "level": 1 }, { type: "space", size: 2 });
+    fs.writeFile('./user.json', json, (err) => { })
+    
+  }
+
+  return fs.readFileSync('./user.json', 'utf8', (err, data) => {
+    if (err) {
+      console.log(`Error reading file from disk: ${err}`)
+    } else {
+      // parse JSON string to JSON object
+    }
+  })
+})
+
+
+
+ipcMain.handle('loadtext',() => {
+    
+    
+  if (!fs.existsSync(`./text.json`)) {
+    const json = jsonFormat({ "name": "user", "level": 1 }, { type: "space", size: 2 });
+    fs.writeFile('./user.json', json, (err) => { })
+    
+  }
+
+  return JSON.parse(fs.readFileSync('./text.json', 'utf8', (err, data) => {
+    if (err) {
+      console.log(`Error reading file from disk: ${err}`)
+    } else {
+      // parse JSON string to JSON object
+    }
+  }))
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

@@ -10,10 +10,16 @@ window.addEventListener('DOMContentLoaded', () => {
     replaceText(`${type}-version`, process.versions[type])
   }
 })
+window.j=0
+
+const { contextBridge , ipcRenderer} = require('electron')
 
 
-function pi()
-{
-  return pre;
-}
+
+
+contextBridge.exposeInMainWorld('version', {
+  j:0,
+  load_user_data: () => ipcRenderer.invoke('loaduserdata'),
+  load_text: ()=>ipcRenderer.invoke('loadtext')})
+
 

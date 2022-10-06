@@ -5,15 +5,37 @@
 // selectively enable features needed in the rendering
 // process.
 
-function startchallenge()
+var text;
+var userdata;
+
+async function load()
 {
- 
+  userdata = await version.load_user_data() 
+  text= await version.load_text()
+  console.log(userdata)
+  console.log(text)
+
+}
+
+load()
+
+
+function challenge()
+{
+  console.log(text.challenge)
+  console.log(Math.random()*text.challenge.length)
+  startchallenge(text.challenge[Math.floor(Math.random()*text.challenge.length)])
+}
+function startchallenge(text)
+{
+
+  console.log(text)
       var body=document.querySelector("body")
 body.innerHTML=`
 <div class="textareas">
 
 <textarea></textarea>
-<div></div>
+<div id="text"></div>
 
 </div>
 <div class="buttons">
@@ -25,10 +47,13 @@ body.innerHTML=`
   <div class="progress-bar">
     <div class="progress"> </div>
   </div>`
-    var time=300
+  var time = 10
+  var deftext = document.querySelector("#text")
+  deftext.textContent=text
     var progressbar=document.querySelector(".progress-bar")
     var progress=document.querySelector(".progress")
-    var elapsedtime=0
+  var elapsedtime = 0
+  
 
     var c=window.setInterval(()=>
     {
@@ -40,22 +65,40 @@ body.innerHTML=`
      }
      else
      {
+       if (document.querySelector("textarea").value === text)
+       {
+         console.log("you win")
+         window.clearInterval(c)
+         start()
+       }
+       else
+       {
+         console.log("you fail")
+         start()
+        }
+
          window.clearInterval(c)
      }
 
     },1000)  
-gvpbutton=document.getElementById("giveup")
-resbutton=document.getElementById("restart")
-subbutton=document.getElementById("submit")
-  console.log("ggg")
+ var gvpbutton=document.getElementById("giveup")
+var resbutton=document.getElementById("restart")
+var subbutton =document.getElementById("submit")
+
 
 gvpbutton.addEventListener("click",()=>
 {
- 
     start()
     window.clearInterval(c) 
 })
+
+  subbutton.addEventListener("click", () => {
+    console.log(text+"\n"+document.querySelector("textarea").value)
+  if (document.querySelector("textarea").value === text)
+    console.log("vous avez réussi")
+})
 }
+
 
 function start()
 {
@@ -63,13 +106,20 @@ function start()
 body.innerHTML=`
 <div>
 <div>
-<button id="startchallenge">challenge</button>
+<button id="startchallenge">challevnge</button>
 <button id="credits">Credits</button>
 </div>
-<div>`
+<div></div></div>
+  
+`
   
 var challengebutton=document.getElementById("startchallenge")
-  challengebutton.addEventListener("click", startchallenge,) 
+  challengebutton.addEventListener("click", challenge)
+  
+  challengebutton.addEventListener("click", async () => {
+    const u = await window.version.load_user_data()
+    console.log(u)
+  })
   var creditbutton=document.getElementById("credits")
   creditbutton.addEventListener("click", credits)  
 }
