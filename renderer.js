@@ -8,16 +8,7 @@
 var text;
 var userdata;
 
-async function load()
-{
-  userdata = await version.load_user_data() 
-  text= await version.load_text()
-  console.log(userdata)
-  console.log(text)
 
-}
-
-load()
 
 
 function challenge()
@@ -32,7 +23,8 @@ function startchallenge(text)
 
   console.log(text)
       var body=document.querySelector("body")
-body.innerHTML=`
+  body.innerHTML =`
+<div id="challenge">
 <div class="textareas">
 
 <textarea></textarea>
@@ -47,7 +39,12 @@ body.innerHTML=`
 
   <div class="progress-bar">
     <div class="progress"> </div>
+  </div>
   </div>`
+
+
+
+
   var time = Math.floor(text.length / (1 + (userdata.level - 1) * 0.2))
   console.log(time)
   var deftext = document.querySelector("#text")
@@ -55,7 +52,8 @@ body.innerHTML=`
     var progressbar=document.querySelector(".progress-bar")
     var progress=document.querySelector(".progress")
   var elapsedtime = 0
-  
+  document.querySelector("textarea").focus()
+
 
     var c=window.setInterval(()=>
     {
@@ -72,6 +70,7 @@ body.innerHTML=`
        if (document.querySelector("textarea").value === text)
        {
          console.log("you win")
+         userdata.level++
          window.clearInterval(c)
          start()
        }
@@ -85,38 +84,68 @@ body.innerHTML=`
      }
 
     },1000)  
- var gvpbutton=document.getElementById("giveup")
-var resbutton=document.getElementById("restart")
-var subbutton =document.getElementById("submit")
 
 
-gvpbutton.addEventListener("click",()=>
+document.getElementById("giveup").addEventListener("click",()=>
 {
     start()
     window.clearInterval(c) 
 })
 
-  subbutton.addEventListener("click", () => {
-    console.log(text+"\n"+document.querySelector("textarea").value)
+  
+document.getElementById("submit").addEventListener("click", () => {
+
   if (document.querySelector("textarea").value === text)
-    console.log("vous avez réussi")
+  {
+   console.log("vous avez réussi")
+  window.clearInterval(c)
+  start()
+    }
+
+})
+  
+  document.getElementById("restart").addEventListener("click", () => {
+  window.clearInterval(c)
+  startchallenge(text)
 })
 }
 
-
+var j=false
 function start()
 {
+
+  async function load()
+{
+  userdata = await version.load_user_data() 
+  text= await version.load_text()
+  console.log(userdata)
+  console.log(text)
+    document.getElementById("level").textContent = "level :" + userdata.level
+    j = true
+}
+
+  if (j == false)
+  {
+    load()
+  
+  }
+ 
   var body=document.querySelector("body")
 body.innerHTML=`
-<div>
-<div>
-<button id="startchallenge">challevnge</button>
-<button id="credits">Credits</button>
+<div id="menu-wrapper">
+<span id="level"></span>
+<div id="menu">
+  <button id="startchallenge">challenge</button>
+  <button id="credits">Credits</button>
+  <button id="quit">quit</button>
 </div>
-<div></div></div>
-  
+</div>
 `
-  
+if(j==true)
+{
+  document.getElementById("level").textContent="level :" +userdata.level
+}
+
 var challengebutton=document.getElementById("startchallenge")
   challengebutton.addEventListener("click", challenge)
   

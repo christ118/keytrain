@@ -4,30 +4,96 @@
 {
   position: relative;
   user-select: none;
+  box-sizing: content-box;
 }
+
+body
+{
+  margin:0 ;
+}
+
+#menu
+{
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 500px;
+  margin: auto;
+
+  justify-content: space-around;
+
+}
+
+#menu-wrapper 
+{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+
+  padding: 20px;
+  font-size: 1.5em;
+
+}
+
+
+#menu-wrapper button
+{
+  font-size: 1.5em;
+  border-radius: 25px;
+  padding: 15px 10px;
+  color: white;
+  background-color: rgb(197, 0, 62);
+}
+
+#menu-wrapper button:hover
+{
+  background-color: rgb(230, 1, 74);
+}
+
+
 .textareas
 {
   display: flex;
   width: 100%;
   height: 400px;
-  
-
+  align-content: space-around;
+  justify-content: space-between;
 }
 
 .textareas > *
 {
-  width:100%;
+  width:600px;
+  margin: 20px;
   resize: none;
+}
+
+textarea{
+  border: 2px solid rgb(0, 0, 0);
+border-radius: 15px;
+font-size: 1.3rem;
+}
+
+#challenge
+{
+  padding:20px 30px;
+  font-size: 1.3rem;
+}
+textarea:focus{
+  outline: 0;
 }
 
 .buttons
 {
-  padding: 20px;
+  padding: 20px 0;
 }
 
 button
 {
   padding: 10px 20px;
+  font-size: 1.3em;
+  border-radius: 25px;
+  color: white;
+  background-color: rgb(197, 0, 62);
 }
 
 .progress-bar
@@ -43,7 +109,7 @@ button
 
   height: 100%;
   width: 0;
-  background-color: rgb(0, 255, 136);
+  background-color: rgb(230, 1, 74);
   transition: width 1s linear;
 
 }
