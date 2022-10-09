@@ -23,7 +23,8 @@ load()
 function challenge()
 {
   console.log(text.challenge)
-  console.log(Math.random()*text.challenge.length)
+  console.log(Math.random() * text.challenge.length)
+  
   startchallenge(text.challenge[Math.floor(Math.random()*text.challenge.length)])
 }
 function startchallenge(text)
@@ -47,7 +48,8 @@ body.innerHTML=`
   <div class="progress-bar">
     <div class="progress"> </div>
   </div>`
-  var time = 10
+  var time = Math.floor(text.length / (1 + (userdata.level - 1) * 0.2))
+  console.log(time)
   var deftext = document.querySelector("#text")
   deftext.textContent=text
     var progressbar=document.querySelector(".progress-bar")
@@ -57,6 +59,7 @@ body.innerHTML=`
 
     var c=window.setInterval(()=>
     {
+      console.log(elapsedtime)
      if(elapsedtime<time)
      {
       elapsedtime+=1
@@ -65,6 +68,7 @@ body.innerHTML=`
      }
      else
      {
+      window.clearInterval(c)
        if (document.querySelector("textarea").value === text)
        {
          console.log("you win")
@@ -77,7 +81,7 @@ body.innerHTML=`
          start()
         }
 
-         window.clearInterval(c)
+         
      }
 
     },1000)  

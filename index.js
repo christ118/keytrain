@@ -41,13 +41,13 @@ ipcMain.handle('loaduserdata', () => {
     
   }
 
-  return fs.readFileSync('./user.json', 'utf8', (err, data) => {
+  return JSON.parse(fs.readFileSync('./user.json', 'utf8', (err, data) => {
     if (err) {
       console.log(`Error reading file from disk: ${err}`)
     } else {
       // parse JSON string to JSON object
     }
-  })
+  }))
 })
 
 
